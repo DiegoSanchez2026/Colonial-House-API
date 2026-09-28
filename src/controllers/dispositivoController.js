@@ -8,8 +8,8 @@ const dispositivos = [
     },
     {
         id: 2,
-        nombre: "Cámara de seguridad",
-        tipo: "Cámara",
+        nombre: "Camara de seguridad",
+        tipo: "Camara",
         estado: "Apagado"
     },
     {
@@ -28,7 +28,7 @@ const dispositivos = [
 
 // Obtener todos los dispositivos
 const obtenerDispositivos = (req, res) => {
-    res.json(dispositivos);
+    res.status(200).json(dispositivos);
 };
 
 // Cambiar el estado de un dispositivo
@@ -36,6 +36,18 @@ const cambiarEstado = (req, res) => {
 
     const id = parseInt(req.params.id);
     const { estado } = req.body;
+
+    if (isNaN(id)) {
+        return res.status(400).json({
+            mensaje: "El ID del dispositivo no es valido"
+        });
+    }
+
+    if (!estado) {
+        return res.status(400).json({
+            mensaje: "El estado es obligatorio"
+        });
+    }
 
     const dispositivo = dispositivos.find(
         (d) => d.id === id
@@ -49,12 +61,13 @@ const cambiarEstado = (req, res) => {
 
     dispositivo.estado = estado;
 
-    res.json({
-        mensaje: "Estado del dispositivo actualizado",
+    return res.status(200).json({
+        mensaje: "Estado actualizado correctamente",
         dispositivo: dispositivo
     });
 };
 
+// Exportar las funciones
 module.exports = {
     obtenerDispositivos,
     cambiarEstado

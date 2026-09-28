@@ -5,7 +5,7 @@ const router = express.Router();
 const {
     obtenerDispositivos,
     cambiarEstado
-} = require("../controllers/dispositivoController");
+} = require("../controller/dispositivoController");
 
 router.get("/", obtenerDispositivos);
 
